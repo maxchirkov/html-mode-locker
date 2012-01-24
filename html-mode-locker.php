@@ -3,14 +3,14 @@
 Plugin Name: HTML Mode Locker
 Plugin URI: http://simplerealtytheme.com
 Description: Adds and option to lock post editor in HTML Mode on selected post types on per-item basis.
-Version: 0.1
+Version: 0.2
 Author: Max Chirkov
 Author URI: http://simplerealtytheme.com
 */
 
 add_action('admin_init', 'html_mode_lock_settings_api_init');
 function html_mode_lock_settings_api_init(){
-	add_settings_section('html_mode_lock_settings', 'HTML Mode Locker', 'html_mode_lock_settings', 'writing');		
+	add_settings_section('html_mode_lock_settings', 'HTML Mode Locker', 'html_mode_lock_empty_content', 'writing');		
 	add_settings_field('html_mode_lock_post_types',
 		'Activate on Post Types',
 		'html_mode_lock_post_types',
@@ -19,13 +19,23 @@ function html_mode_lock_settings_api_init(){
 	register_setting( 'writing', 'html_mode_lock_post_types' );
 }
 
+//this call back is required by the add_settings_section()
+//but our content is created by add_settings_field()
+//so we return nothing
+function html_mode_lock_empty_content(){
+  
+}
+
 function html_mode_lock_post_types(){
 	$post_types = get_post_types(array('show_ui' => 1));	
 
 	$options = get_option('html_mode_lock_post_types');
 	
+  $output = '';  
 	foreach($post_types as $name){
-		$output .= '<input type="checkbox" value="1" name="html_mode_lock_post_types[' . $name . ']" ' . checked( 1, $options[$name], false ) .' class="code" /> ' . $name .'<br/>';
+    $value = ( isset($options[$name]) ) ?  $options[$name] : false;
+
+		$output .= '<input type="checkbox" value="1" name="html_mode_lock_post_types[' . $name . ']" ' . checked( 1, $value, false ) .' class="code" /> ' . $name .'<br/>';
 	}	
 	echo $output;	
 	echo '<p>Allows you to lock post editor in HTML Mode on selected post types on per-item basis.</p>';
