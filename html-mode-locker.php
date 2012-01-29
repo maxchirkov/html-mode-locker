@@ -3,10 +3,15 @@
 Plugin Name: HTML Mode Locker
 Plugin URI: http://simplerealtytheme.com
 Description: Adds and option to lock post editor in HTML Mode on selected post types on per-item basis.
-Version: 0.2
+Version: 0.3
 Author: Max Chirkov
 Author URI: http://simplerealtytheme.com
 */
+
+if( !is_admin() )
+  return;
+
+include_once 'Class_Pointers.php';
 
 add_action('admin_init', 'html_mode_lock_settings_api_init');
 function html_mode_lock_settings_api_init(){
@@ -35,10 +40,12 @@ function html_mode_lock_post_types(){
 	foreach($post_types as $name){
     $value = ( isset($options[$name]) ) ?  $options[$name] : false;
 
-		$output .= '<input type="checkbox" value="1" name="html_mode_lock_post_types[' . $name . ']" ' . checked( 1, $value, false ) .' class="code" /> ' . $name .'<br/>';
+		$output .= '<input post_type="' . $name . '" type="checkbox" value="1" name="html_mode_lock_post_types[' . $name . ']" ' . checked( 1, $value, false ) .' class="code" /> ' . $name .'<br/>';
 	}	
-	echo $output;	
+	echo '<div id="html-mode-locker-settings">';
+  echo $output;	
 	echo '<p>Allows you to lock post editor in HTML Mode on selected post types on per-item basis.</p>';
+  echo '</div>';
 }
 
 add_action('add_meta_boxes', 'html_mode_lock_meta_box');
@@ -48,6 +55,9 @@ add_action( 'save_post', 'html_mode_lock_save_postdata' );
 function html_mode_lock_meta_box(){
 	$options = get_option('html_mode_lock_post_types');
 	
+  if( !$options )
+    return;
+
 	foreach($options as $k => $v){
 		if($v == 1){
 		   add_meta_box( 
@@ -121,4 +131,14 @@ function html_mode_lock_on(){
 	return false;
 }
 
-?>
+function html_mode_lock_set_ignore() {
+  if ( ! current_user_can('manage_options') )
+    die('-1');
+  check_ajax_referer('html_mode_lock-ignore');
+
+  $options = get_option('html_mode_lock');
+  $options['ignore_'.$_POST['option']] = 'ignore';
+  update_option('html_mode_lock', $options);
+  die('1');
+}
+add_action('wp_ajax_html_mode_lock_set_ignore', 'html_mode_lock_set_ignore');
