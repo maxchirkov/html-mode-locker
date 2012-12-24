@@ -3,8 +3,8 @@ Contributors: Max Chirkov
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=4ESAQKUA5AF7E
 Tags: html, editor, html mode
 Requires at least: 3.0
-Tested up to: 3.2.1
-Stable tag: 0.3
+Tested up to: 3.5
+Stable tag: 0.4
 
 Adds and option to lock post editor in HTML Mode on selected post types on per-item basis.
 
@@ -33,6 +33,9 @@ The HTML Locker meta box will appear to the right of the content editor on selec
 2. HTML Mode Locker meta box in the post editor.
 
 == Changelog ==
+
+= 0.4 =
+* Fixed: WP 3.5 compatibility issue - HTML Mode Locker wasn't locking HTML/Text view in WordPress 3.5
 
 = 0.3 =
 * Added a "Plugin Tour" with new pointers feature.
