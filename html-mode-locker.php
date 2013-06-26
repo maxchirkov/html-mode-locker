@@ -1,11 +1,15 @@
 <?php
 /*
 Plugin Name: HTML Mode Locker
-Plugin URI: http://simplerealtytheme.com
+Plugin URI: http://wordpress.org/plugins/html-mode-locker/
 Description: Adds and option to lock post editor in HTML Mode on selected post types on per-item basis.
-Version: 0.4
+Version: 0.5-dev
 Author: Max Chirkov
 Author URI: http://simplerealtytheme.com
+License: GPLv2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: html-mode-locker
+Domain Path: /languages
 */
 
 if( !is_admin() )
