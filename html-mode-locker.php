@@ -12,17 +12,18 @@ Text Domain: html-mode-locker
 Domain Path: /languages
 */
 
-if( !is_admin() )
+if ( !is_admin() )
   return;
 
 include_once 'Class_Pointers.php';
 
+load_plugin_textdomain( 'html-mode-locker', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 
 add_action('admin_init', 'html_mode_lock_settings_api_init');
-function html_mode_lock_settings_api_init(){
-	add_settings_section('html_mode_lock_settings', 'HTML Mode Locker', 'html_mode_lock_empty_content', 'writing');
+function html_mode_lock_settings_api_init() {
+	add_settings_section('html_mode_lock_settings', __( 'HTML Mode Locker', 'html-mode-locker'), 'html_mode_lock_empty_content', 'writing');
 	add_settings_field('html_mode_lock_post_types',
-		'Activate on Post Types',
+		__( 'Activate on Post Types', 'html-mode-locker'),
 		'html_mode_lock_post_types',
 		'writing',
 		'html_mode_lock_settings');
@@ -33,25 +34,25 @@ function html_mode_lock_settings_api_init(){
 //this call back is required by the add_settings_section()
 //but our content is created by add_settings_field()
 //so we return nothing
-function html_mode_lock_empty_content(){
+function html_mode_lock_empty_content() {
 
 }
 
 
-function html_mode_lock_post_types(){
+function html_mode_lock_post_types() {
 	$post_types = get_post_types(array('show_ui' => 1));
 
 	$options = get_option('html_mode_lock_post_types');
 
   $output = '';
-	foreach($post_types as $name){
+	foreach($post_types as $name) {
     $value = ( isset($options[$name]) ) ?  $options[$name] : false;
 
 		$output .= '<input post_type="' . $name . '" type="checkbox" value="1" name="html_mode_lock_post_types[' . $name . ']" ' . checked( 1, $value, false ) .' class="code" /> ' . $name .'<br/>';
 	}
 	echo '<div id="html-mode-locker-settings">';
   echo $output;
-	echo '<p>Allows you to lock post editor in HTML Mode on selected post types on per-item basis.</p>';
+	echo '<p>' . __( 'Allows you to lock post editor in HTML Mode on selected post types on per-item basis.', 'html-mode-locker') . '</p>';
   echo '</div>';
 }
 
@@ -60,14 +61,14 @@ add_action('add_meta_boxes', 'html_mode_lock_meta_box');
 add_action( 'save_post', 'html_mode_lock_save_postdata' );
 
 
-function html_mode_lock_meta_box(){
+function html_mode_lock_meta_box() {
 	$options = get_option('html_mode_lock_post_types');
 
-  if( !$options )
+  if ( !$options )
     return;
 
-	foreach($options as $k => $v){
-		if($v == 1){
+	foreach($options as $k => $v) {
+		if ($v == 1) {
 		   add_meta_box(
 		        'html_mode_lock',
 		        __( 'HTML Mode Locker', 'html_mode_lock' ),
@@ -92,7 +93,7 @@ function html_mode_lock_callback($post)
   // The actual fields for data entry
   echo '<label for="html_mode_lock" class="selectit">';
   echo '<input type="checkbox" id="html_mode_lock" name="html_mode_lock" ' . checked($html_mode_lock, "on", false ) . '/> ';
-  _e("Lock HTML View", 'html_mode_lock' );
+  _e( 'Lock HTML View', 'html_mode_lock' );
   echo '</label> ';
 }
 
@@ -136,12 +137,12 @@ function html_mode_lock_save_postdata( $post_id ) {
 
 
 add_filter('user_can_richedit', 'html_mode_lock_on');
-function html_mode_lock_on($wp_rich_edit){
+function html_mode_lock_on($wp_rich_edit) {
   global $post;
 
   $html_mode_lock = get_post_meta($post->ID,'html_mode_lock',true);
 
-  if($html_mode_lock)
+  if ($html_mode_lock)
     return false;
 
   return $wp_rich_edit;
