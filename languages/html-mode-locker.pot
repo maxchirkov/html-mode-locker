@@ -1,0 +1,135 @@
+# Translation of HTML Mode Locker in German
+# This file is distributed under the same license as the HTML Mode Locker package.
+msgid ""
+msgstr ""
+"PO-Revision-Date: 2013-06-26 06:32:04+0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: GlotPress/0.1\n"
+"Project-Id-Version: HTML Mode Locker\n"
+
+#: Class_Pointers.php:42
+msgid "Initial Setup"
+msgstr ""
+
+#: Class_Pointers.php:42
+msgid "Go to Settings => Writing."
+msgstr ""
+
+#: Class_Pointers.php:42
+msgid "About This Tour"
+msgstr ""
+
+#: Class_Pointers.php:42
+msgid "Clicking Next below takes you to the next page of the tour. If you want to stop this tour, click \"Close\"."
+msgstr ""
+
+#: Class_Pointers.php:43 Class_Pointers.php:50
+msgid "Next"
+msgstr ""
+
+#: Class_Pointers.php:48
+msgid "Activate HTML Mode Locker"
+msgstr ""
+
+#: Class_Pointers.php:49
+msgid "Select post types on which you wish to activate the HTML Mode Locker and click Save Changes."
+msgstr ""
+
+#: Class_Pointers.php:55
+msgid "Lock the Editor in HTML View"
+msgstr ""
+
+#: Class_Pointers.php:55
+msgid "HTML Mode Locker metabox will appear on selected post types editor screen."
+msgstr ""
+
+#: Class_Pointers.php:55
+msgid "To lock the HTML View check the box and click Save Draft or Publish. After that the Vsual editor will be deactivated."
+msgstr ""
+
+#: Class_Pointers.php:56
+msgid "Plugin Updates"
+msgstr ""
+
+#: Class_Pointers.php:57
+msgid "If you would like to keep up to date regarding the HTML Mode Locker plugin and other plugins by SimpleRealtyTheme.com, subscribe to the updates:"
+msgstr ""
+
+#: Class_Pointers.php:60
+msgid "Email"
+msgstr ""
+
+#: Class_Pointers.php:62
+msgid "Subscribe"
+msgstr ""
+
+#: Class_Pointers.php:64
+msgid "The tour ends here, good luck!"
+msgstr ""
+
+#: Class_Pointers.php:69
+msgid "Plugin Usage"
+msgstr ""
+
+#: Class_Pointers.php:69
+msgid "HTML Mode Locker metabox will appear on selected post types editor screen <strong>above the <u>Publish</u></strong> metabox."
+msgstr ""
+
+#: Class_Pointers.php:69
+msgid "Go back"
+msgstr ""
+
+#: Class_Pointers.php:69
+msgid "to activate the HTML Locker on desired post types."
+msgstr ""
+
+#: Class_Pointers.php:70
+msgid "Go Back"
+msgstr ""
+
+#: Class_Pointers.php:84
+msgid "Congratulations!"
+msgstr ""
+
+#: Class_Pointers.php:85
+msgid "You've just installed HTML Mode Locker! Click \"Start Tour\" to view a 3-step guide on how to use this plugin."
+msgstr ""
+
+#: Class_Pointers.php:87
+msgid "Start Tour"
+msgstr ""
+
+#: Class_Pointers.php:102
+msgid "Close"
+msgstr ""
+
+#: html-mode-locker.php:24 html-mode-locker.php:74
+msgid "HTML Mode Locker"
+msgstr ""
+
+#: html-mode-locker.php:26
+msgid "Activate on Post Types"
+msgstr ""
+
+#: html-mode-locker.php:55
+msgid "Allows you to lock post editor in HTML Mode on selected post types on per-item basis."
+msgstr ""
+
+#: html-mode-locker.php:96
+msgid "Lock HTML View"
+msgstr ""
+
+msgid "http://wordpress.org/plugins/html-mode-locker/"
+msgstr ""
+
+msgid "Adds and option to lock post editor in HTML Mode on selected post types on per-item basis."
+msgstr ""
+
+msgid "Max Chirkov"
+msgstr ""
+
+msgid "http://simplerealtytheme.com"
+msgstr ""
