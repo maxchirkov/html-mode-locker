@@ -78,7 +78,7 @@ if ( ! class_exists('HTML_Mode_Locker') ) {
 			add_settings_section(
 				'html_mode_lock_settings',
 				__( 'HTML Mode Locker', 'html-mode-locker'),
-				array( &$this, 'empty_content'),
+				array( &$this, 'show_description'),
 				'writing'
 			);
 			
@@ -87,16 +87,17 @@ if ( ! class_exists('HTML_Mode_Locker') ) {
 				__( 'Activate on Post Types', 'html-mode-locker'),
 				array( &$this, 'post_types'),
 				'writing',
-				'html_mode_lock_settings');
+				'html_mode_lock_settings'
+			);
 			
 			register_setting( 'writing', 'html_mode_lock_post_types' );
 		}
 
-		//this call back is required by the add_settings_section()
-		//but our content is created by add_settings_field()
-		//so we return nothing
-		function empty_content() { }
-		
+		public function show_description() {
+			echo '<p>' . __( 'Allows you to lock post editor in HTML Mode on selected post types on per-item basis.', 'html-mode-locker') . '</p>';
+			// wp_nonce_field( 'html_mode_locker_update_taxonomies', 'html_mode_locker_nonce');
+		}
+	
 		function meta_box() {
 			$options = get_option('html_mode_lock_post_types');
 
@@ -125,10 +126,12 @@ if ( ! class_exists('HTML_Mode_Locker') ) {
 			$html_mode_lock = get_post_meta($post->ID,'html_mode_lock',true);
 
 			// The actual fields for data entry
-			echo '<label for="html_mode_lock" class="selectit">';
-			echo '<input type="checkbox" id="html_mode_lock" name="html_mode_lock" ' . checked($html_mode_lock, "on", false ) . '/> ';
-			echo __( 'Lock HTML View', 'html_mode_lock' );
-			echo '</label> ';
+?>
+			<label for="html_mode_lock" class="selectit">
+				<input type="checkbox" id="html_mode_lock" name="html_mode_lock" <?php checked( $html_mode_lock, 'on', false); ?>/>
+				<?php _e( 'Lock HTML View', 'html_mode_locker' ); ?>
+			</label>
+			<?php
 		}
 		
 		/* When the post is saved, saves our custom data */
@@ -202,7 +205,6 @@ if ( ! class_exists('HTML_Mode_Locker') ) {
 			}
 			echo '<div id="html-mode-locker-settings">';
 			echo $output;
-			echo '<p>' . __( 'Allows you to lock post editor in HTML Mode on selected post types on per-item basis.', 'html-mode-locker') . '</p>';
 			echo '</div>';
 		}
 		
