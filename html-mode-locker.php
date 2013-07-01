@@ -62,6 +62,8 @@ if ( ! class_exists('HTML_Mode_Locker') ) {
 			add_action( 'wp_ajax_html_mode_lock_set_ignore', array( &$this, 'set_ignore') );
 			
 			add_filter( 'user_can_richedit', array( &$this, 'lock_on') );
+			
+			register_deactivation_hook( __FILE__, array( 'HTML_Mode_Locker', 'deactivate_plugin') );
 		}
 
 		// Access this plugin’s working instance
@@ -202,6 +204,11 @@ if ( ! class_exists('HTML_Mode_Locker') ) {
 			echo $output;
 			echo '<p>' . __( 'Allows you to lock post editor in HTML Mode on selected post types on per-item basis.', 'html-mode-locker') . '</p>';
 			echo '</div>';
+		}
+		
+		function deactivate_plugin() {
+			delete_option( 'html_mode_lock' );
+			delete_option( 'html_mode_lock_post_types' );
 		}
 
 	} // END class HTML_Mode_Locker
