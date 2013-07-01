@@ -37,9 +37,9 @@ include_once 'Class_Pointers.php';
 
 add_action('admin_init', 'html_mode_lock_settings_api_init');
 function html_mode_lock_settings_api_init(){
-	add_settings_section('html_mode_lock_settings', 'HTML Mode Locker', 'html_mode_lock_empty_content', 'writing');
+	add_settings_section('html_mode_lock_settings', __( 'HTML Mode Locker', 'html-mode-locker'), 'html_mode_lock_empty_content', 'writing'); 
 	add_settings_field('html_mode_lock_post_types',
-		'Activate on Post Types',
+		__( 'Activate on Post Types', 'html-mode-locker'),
 		'html_mode_lock_post_types',
 		'writing',
 		'html_mode_lock_settings');
@@ -68,7 +68,7 @@ function html_mode_lock_post_types(){
 	}
 	echo '<div id="html-mode-locker-settings">';
   echo $output;
-	echo '<p>Allows you to lock post editor in HTML Mode on selected post types on per-item basis.</p>';
+	echo '<p>' . __( 'Allows you to lock post editor in HTML Mode on selected post types on per-item basis.', 'html-mode-locker') . '</p>';
   echo '</div>';
 }
 
@@ -109,7 +109,7 @@ function html_mode_lock_callback($post)
   // The actual fields for data entry
   echo '<label for="html_mode_lock" class="selectit">';
   echo '<input type="checkbox" id="html_mode_lock" name="html_mode_lock" ' . checked($html_mode_lock, "on", false ) . '/> ';
-  _e("Lock HTML View", 'html_mode_lock' );
+  _e('Lock HTML View', 'html_mode_lock' );
   echo '</label> ';
 }
 
