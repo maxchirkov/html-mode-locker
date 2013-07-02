@@ -26,7 +26,7 @@ Domain Path: /languages
 	GNU General Public License for more details.
 
 	You should have received a copy of the GNU General Public License
-	along with this program.  If not, see <http://www.gnu.org/licenses/>. 
+	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 //avoid direct calls to this file
@@ -37,43 +37,41 @@ if ( ! function_exists( 'add_filter' ) ) {
 }
 
 if ( ! class_exists('HTML_Mode_Locker') ) {
-	
+
 	add_action(
-		'plugins_loaded', 
+		'plugins_loaded',
 		array ( 'HTML_Mode_Locker', 'get_instance' )
 	);
-	
+
 	class HTML_Mode_Locker {
-		
+
 		// Plugin instance
 		protected static $instance = NULL;
-		
+
 		public function __construct() {
 			if ( ! is_admin() )
 				return NULL;
-			
+
 			load_plugin_textdomain( 'html-mode-locker', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 			include_once 'Class_Pointers.php';
-			
+
 			add_action( 'admin_init', array( &$this, 'settings_api_init') );
 			add_action( 'add_meta_boxes', array( &$this, 'meta_box') );
 			/* Do something with the data entered */
 			add_action( 'save_post', array( &$this, 'save_postdata') );
 			add_action( 'wp_ajax_html_mode_lock_set_ignore', array( &$this, 'set_ignore') );
-			
+
 			add_filter( 'user_can_richedit', array( &$this, 'lock_on') );
-			
-			register_deactivation_hook( __FILE__, array( 'HTML_Mode_Locker', 'deactivate_plugin') );
 		}
 
 		// Access this plugin’s working instance
-		public static function get_instance() {	
+		public static function get_instance() {
 			if ( NULL === self::$instance )
 				self::$instance = new self;
 
 			return self::$instance;
 		}
-		
+
 		function settings_api_init() {
 			add_settings_section(
 				'html_mode_lock_settings',
@@ -81,7 +79,7 @@ if ( ! class_exists('HTML_Mode_Locker') ) {
 				array( &$this, 'show_description'),
 				'writing'
 			);
-			
+
 			add_settings_field(
 				'html_mode_lock_post_types',
 				__( 'Activate on Post Types', 'html-mode-locker'),
@@ -89,7 +87,7 @@ if ( ! class_exists('HTML_Mode_Locker') ) {
 				'writing',
 				'html_mode_lock_settings'
 			);
-			
+
 			register_setting( 'writing', 'html_mode_lock_post_types' );
 		}
 
@@ -97,7 +95,7 @@ if ( ! class_exists('HTML_Mode_Locker') ) {
 			echo '<p>' . __( 'Allows you to lock post editor in HTML Mode on selected post types on per-item basis.', 'html-mode-locker') . '</p>';
 			// wp_nonce_field( 'html_mode_locker_update_taxonomies', 'html_mode_locker_nonce');
 		}
-	
+
 		function meta_box() {
 			$options = get_option('html_mode_lock_post_types');
 
@@ -118,7 +116,7 @@ if ( ! class_exists('HTML_Mode_Locker') ) {
 			}
 
 		}
-		
+
 		function callback($post) {
 			// Use nonce for verification
 			wp_nonce_field( 'html_mode_lock', 'html_mode_lock_nonce', false );
@@ -128,12 +126,12 @@ if ( ! class_exists('HTML_Mode_Locker') ) {
 			// The actual fields for data entry
 ?>
 			<label for="html_mode_lock" class="selectit">
-				<input type="checkbox" id="html_mode_lock" name="html_mode_lock" <?php checked( $html_mode_lock, 'on', false); ?>/>
+				<input type="checkbox" id="html_mode_lock" name="html_mode_lock" <?php checked( $html_mode_lock, 'on', true); ?>/>
 				<?php _e( 'Lock HTML View', 'html_mode_locker' ); ?>
 			</label>
 			<?php
 		}
-		
+
 		/* When the post is saved, saves our custom data */
 		function save_postdata( $post_id ) {
 
@@ -168,7 +166,7 @@ if ( ! class_exists('HTML_Mode_Locker') ) {
 			// a custom table (see Further Reading section below)
 			update_post_meta( $post_id, 'html_mode_lock', $html_mode_lock);
 		}
-		
+
 		function lock_on($wp_rich_edit) {
 			global $post;
 
@@ -179,7 +177,7 @@ if ( ! class_exists('HTML_Mode_Locker') ) {
 
 			return $wp_rich_edit;
 		}
-		
+
 		function set_ignore() {
 			if ( ! current_user_can('manage_options') )
 				die('-1');
@@ -191,7 +189,7 @@ if ( ! class_exists('HTML_Mode_Locker') ) {
 			update_option('html_mode_lock', $options);
 			die('1');
 		}
-		
+
 		function post_types() {
 			$post_types = get_post_types(array('show_ui' => 1));
 
@@ -207,12 +205,7 @@ if ( ! class_exists('HTML_Mode_Locker') ) {
 			echo $output;
 			echo '</div>';
 		}
-		
-		function deactivate_plugin() {
-			delete_option( 'html_mode_lock' );
-			delete_option( 'html_mode_lock_post_types' );
-		}
 
 	} // END class HTML_Mode_Locker
-	
+
 } // END if class_exists
