@@ -56,6 +56,7 @@ if ( ! class_exists('HTML_Mode_Locker') ) {
 			include_once 'Class_Pointers.php';
 
 			add_action( 'admin_init', array( &$this, 'settings_api_init') );
+			add_action( 'current_screen', array( $this, 'settings_save' ) );
 			add_action( 'add_meta_boxes', array( &$this, 'meta_box') );
 			/* Do something with the data entered */
 			add_action( 'save_post', array( &$this, 'save_postdata') );
@@ -80,20 +81,43 @@ if ( ! class_exists('HTML_Mode_Locker') ) {
 				'writing'
 			);
 
-			add_settings_field(
-				'html_mode_lock_post_types',
-				__( 'Activate on Post Types', 'html-mode-locker'),
-				array( &$this, 'post_types'),
-				'writing',
-				'html_mode_lock_settings'
-			);
+//			add_settings_field(
+//				'html_mode_lock_post_types',
+//				__( 'Activate on Post Types', 'html-mode-locker'),
+//				array( &$this, 'post_types'),
+//				'writing',
+//				'html_mode_lock_settings'
+//			);
 
-			register_setting( 'writing', 'html_mode_lock_post_types' );
+//			register_setting( 'writing', 'html_mode_lock_post_types' );
+			
+			// simple version
+			$post_types = get_post_types( array( 'show_ui' => 1));
+
+			foreach( $post_types as $post_type ) {
+				$post_type_name = get_post_type_object( $post_type );
+				add_settings_field(
+					'html-mode-lock-settings-' . $post_type, // id $post_type->name
+					$post_type_name->labels->singular_name, // $post_type->label
+					array( $this, 'post_types'), // display callback
+					'writing', // settings page
+					'html_mode_lock_settings', // settings section
+					array( 'post_type' => $post_type )
+				);
+			}
 		}
 
 		public function show_description() {
 			echo '<p>' . __( 'Allows you to lock post editor in HTML Mode on selected post types on per-item basis.', 'html-mode-locker') . '</p>';
-			// wp_nonce_field( 'html_mode_locker_update_taxonomies', 'html_mode_locker_nonce');
+			wp_nonce_field( 'html-mode-locker-update-post-types', 'html-mode-locker-nonce');
+		}
+		
+		function settings_save( $screen ) {
+			if( 'options-writing' == $screen->base && isset( $_POST['html-mode-locker-nonce'] ) ) {
+				if( wp_verify_nonce( $_POST['html-mode-locker-nonce'], 'html-mode-locker-update-post-types' ) ) {
+					update_option( 'html_mode_lock_post_types', ( isset( $_POST['html_mode_lock_post_types'] ) ) ? $_POST['html_mode_lock_post_types'] : false );
+				}
+			}
 		}
 
 		function meta_box() {
@@ -190,20 +214,24 @@ if ( ! class_exists('HTML_Mode_Locker') ) {
 			die('1');
 		}
 
-		function post_types() {
-			$post_types = get_post_types(array('show_ui' => 1));
-
-			$options = get_option('html_mode_lock_post_types');
-
-			$output = '';
-			foreach( $post_types as $name ) {
-				$value = ( isset($options[$name]) ) ?  $options[$name] : false;
-
-				$output .= '<input post_type="' . $name . '" type="checkbox" value="1" name="html_mode_lock_post_types[' . $name . ']" ' . checked( 1, $value, false ) .' class="code" /> ' . $name .'<br/>';
-			}
-			echo '<div id="html-mode-locker-settings">';
-			echo $output;
-			echo '</div>';
+		function post_types( $args ) {
+			$post_type  = $args['post_type'];
+			$selected	= get_option( 'html_mode_lock_post_types');
+			$active		= ( isset($selected[$post_type]) ) ?  $selected[$post_type] : false;
+			$id			= esc_attr( 'html-mode-lock-' . $post_type );
+			
+			echo '<input type="checkbox" post_type="' . $post_type . '" name="html_mode_lock_post_types[' . $post_type . ']" value="1" ' . checked( 1, $active, false ) . '/>';
+//			printf(
+//				'<input type="checkbox" id="' . $post_type . '" name="html_mode_lock_post_types[]" value="%s" ' . checked( 1, $active, false ) . '/>', // <label for="' . $id . '"> %s </label>
+//				$post_type
+//			);
+			echo '$post_type:' . $post_type . '<br />';
+			echo '$selected:' . $selected . '<br />';
+			echo '$active:' . $active . '<br />';
+			echo '$id:' . $id . '<br />';
+			
+			$debug = get_option('html_mode_lock_post_types');
+			echo 'html_mode_lock_post_types:<br /> '  . print_r($debug);
 		}
 
 	} // END class HTML_Mode_Locker
