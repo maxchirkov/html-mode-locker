@@ -1,13 +1,13 @@
 # HTML Mode Locker
 __Adds and option to lock post editor in HTML Mode on selected post types on per-item basis.__
 
-[Homepage][1.1] | [WordPress.org][1.2]
+Master: [![Build Status](https://travis-ci.org/maxchirkov/html-mode-locker.png?branch=master)](https://travis-ci.org/maxchirkov/html-mode-locker)
 
-| WordPress					| Version			| *		| Development				|					|
-| ----:						| :----				| :---: | :----						| :----				|
-| Requires at least:		| __2.9__			| *		| [GitHub-Repository][1.3]	| [Translate][1.6]	|
-| Tested up to:				| __3.6__			| *		| [Issue-Tracker][1.4]		|					|
-| Current stable release:	| __[0.4][1.5]__	| *		| Current dev version:		| [0.5-dev][1.7]	|
+| *						| WordPress					| Version			| *		| Development				|					|
+| :----					| ----:						| :----				| :---: | :----						| :----				|
+| [Homepage][1.1]		| Requires at least:		| __2.9__			| *		| [GitHub-Repository][1.3]	| [Translate][1.6]	|
+| [WordPress.org][1.2]	| Tested up to:				| __3.6__			| *		| [Issue-Tracker][1.4]		|					|
+| *						| Current stable release:	| __[0.4][1.5]__	| *		| Current dev version:		| [0.5-dev][1.7]	|
 
 [1.1]: http://simplerealtytheme.com/plugins/
 [1.2]: http://wordpress.org/plugins/html-mode-locker/
